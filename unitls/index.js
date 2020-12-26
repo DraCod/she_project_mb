@@ -1,9 +1,16 @@
 export default{
 	install(Vue){
-		Vue.prototype.$save = function(key,data){
-			uni.setStorage({
+		Vue.prototype.$save =async  function(key,data){
+			await uni.setStorage({
 				key,
 				data
+			})
+		}
+		Vue.prototype.$message = function(title,icon='success'){
+			uni.showToast({
+				title,
+				duration:3000,
+				icon
 			})
 		}
 		Vue.prototype.$get = function(key){
@@ -15,6 +22,9 @@ export default{
 			let header = {
 				authorization:this.$get('token'),
 			}
+			uni.showLoading({
+				title:'正在加载'
+			})
 			return new Promise((resolve, reject)=>{
 				uni.request({
 					url:`${this.$url}${url}`,
@@ -23,13 +33,46 @@ export default{
 					timeout:8000,
 					header,
 					success:(res)=>{
-						resolve(res.data)
+						if(res.data.status==402){
+							reject(res.data)
+						}else if(res.data.status==401){
+							uni.showModal({
+								title: '提示',
+								content: '请先登录',
+								success: function (res) {
+									if (res.confirm) {
+										uni.switchTab({
+											url:`/pages/my/my`
+										})
+									} else if (res.cancel) {
+										uni.navigateBack()
+									}
+								}
+							})
+						}else{
+							resolve(res.data)
+						}
 					},
 					fail:(err)=>{
 						if(err.status==401){
-							
+							uni.showModal({
+								title: '提示',
+								content: '请先登录',
+								success: function (res) {
+									if (res.confirm) {
+										uni.switchTab({
+											url:`/pages/my/my`
+										})
+									} else if (res.cancel) {
+										uni.navigateBack()
+									}
+								}
+							})
 						}
 						reject(err)
+					},
+					complete:()=>{
+						uni.hideLoading()
 					}
 				})
 			})

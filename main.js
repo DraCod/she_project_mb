@@ -10,6 +10,10 @@ Vue.config.productionTip = false
 App.mpType = 'app';
 
 Vue.prototype.$url='http://192.168.5.118:7001/'
+// Vue.prototype.$url='http://192.168.43.245:7001/'
+// Vue.prototype.$url='http://172.20.10.13:7001/'
+Vue.prototype.$store=store
+
 
 const app = new Vue({
 	store,

@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<view class="header">
-			<view class="input">
+			<view class="input" @click="to_search">
 				<view class="iconfont icon-sousuo"></view>
 				输入关键词
 			</view>
@@ -12,14 +12,14 @@
 			</swiper-item>
 		</swiper>
 		<view class="activity">
-			<view v-for="(item,index) in active_arr" class="activity-item" :key="index">
+			<view v-for="(item,index) in active_arr" class="activity-item" @click="to_page(item)" :key="index">
 				<image :src="item.img" mode=""></image>
 				<view class="">
 					{{item.title}}
 				</view>
 			</view>
 		</view>
-		<view class="classify-box">
+		<!-- <view class="classify-box">
 			<view class="classify">
 				<view 
 					v-for="(item,index) in class_list"
@@ -29,18 +29,21 @@
 					{{item.label}}
 				</view>
 			</view>
+		</view> -->
+		<view class="hot">
+			热卖商品
 		</view>
 		<view class="good-list">
-			<view class="good-item" v-for="(item,index) in 5" :key="index">
-				<image src="../../static/my-active.png" mode="aspectFill"></image>
+			<view class="good-item" v-for="(item,index) in list" @click="to_detail(item)" :key="index">
+				<image :src="url+item.main.path" mode="aspectFill"></image>
 				<view class="info-box">
 					<view class="title">
-						商品名称 商品名称 商品...商品名称 商品名称 商品...
+						{{item.goods}}
 					</view>
 					<view class="price">
-						价格
+						¥
 						<view class="num">
-							200
+							{{item.price}}
 						</view>
 					</view>
 				</view>
@@ -84,16 +87,57 @@
 						active:true,
 						value:1
 					},
-				]
+				],
+				list:[],
+				url:''
 			}
 		},
 		mounted(){
-			
+			this.url=this.$url;
+			// this.get_classify();
+			this.get_list()
 		},
 		methods: {
+			get_list(){
+				this.$http('get|mb/recommend-list').then(res=>{
+					this.list=res.data;
+				})
+			},
+			get_classify(){
+				this.$http('get|pc/classify-list').then(res=>{
+					this.class_list = res.data.map(row=>{
+						return{
+							label:row.classify,
+							value:row.id,
+							active:false
+						}
+					})
+					this.to_active(this.class_list[0]);
+				})
+			},
 			to_active(item){
 				this.class_list.forEach(row=>row.active=false)
 				item.active=true;
+				this.get_list(item.value)
+			},
+			to_page(item){
+				if(item.path){
+					uni.navigateTo({
+						url:item.path
+					})
+				}else{
+					this.$message('敬请期待','none')
+				}
+			},
+			to_detail(item){
+				uni.navigateTo({
+					url:`/pages/good-detail/good-detail?id=${item.id}`
+				})
+			},
+			to_search(){
+				uni.navigateTo({
+					url:'/pages/search/search'
+				})
 			}
 		}
 	}
@@ -103,7 +147,8 @@
 	.header{
 		width: 750rpx;
 		height: 278rpx;
-		background: #00a1d6;
+		background-image: linear-gradient(to bottom,#fb7299,rgba(251,114,153,0.5),#fb7299);
+		/* background: #fb7299; */
 		border-radius: 0 0 25% 25%;
 		.input{
 			width: 630rpx;
@@ -165,21 +210,23 @@
 	.classify{
 		display: flex;
 		flex-wrap: nowrap;
-		margin: 20px auto;
+		margin: 10px auto;
 		padding: 0 35rpx;
 		font-size: 28rpx;
 		white-space: nowrap;
+		line-height: 60rpx;
+		/* margin-bottom: 20rpx; */
 		view+view{
-			margin-left: 100rpx;
+			margin-left: 35rpx;
 		}
 		.active{
 			position: relative;
-			color: #00a1d6;
+			color: #fb7299;
 			&::after{
 				content: '';
-				width: 57rpx;
+				width: 100%;
 				height: 4rpx;
-				background: #00a1d6;
+				background: #fb7299;
 				border-radius: 2px;
 				position: absolute;
 				left: 50%;
@@ -229,5 +276,12 @@
 				margin-left: 10rpx;
 			}
 		}
+	}
+	.hot{
+		padding: 0 30rpx;
+		box-sizing: border-box;
+		line-height: 80rpx;
+		font-size: 26rpx;
+		color: #fb7299;
 	}
 </style>

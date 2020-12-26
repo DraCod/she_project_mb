@@ -30,15 +30,111 @@
             }
             
         }
+        ,{
+            "path" : "pages/good-detail/good-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "商品详情"
+            }
+            
+        }
+        ,{
+            "path" : "pages/address_list/address_list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "地址管理"
+            }
+            
+        }
+        ,{
+            "path" : "pages/add-address/add-address",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "地址"
+            }
+            
+        }
+        ,{
+            "path" : "pages/order/order",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "订单"
+            }
+            
+        }
+        ,{
+            "path" : "pages/order-list/order-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的订单"
+            }
+            
+        }
+        ,{
+            "path" : "pages/order-detail/order-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "订单详情"
+            }
+            
+        }
+        ,{
+            "path" : "pages/collection-list/collection-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的收藏"
+            }
+            
+        }
+        ,{
+            "path" : "pages/search/search",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "搜索"
+            }
+            
+        },
+		{
+		    "path" : "pages/search-list/search-list",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": ""
+		    }
+		    
+		}
+        ,{
+            "path" : "pages/comment/comment",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "评论"
+            }
+            
+        }
+        ,{
+            "path" : "pages/comment-list/comment-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "更多评论"
+            }
+            
+        }
+        ,{
+            "path" : "pages/wallet-list/wallet-list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "钱包记录"
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "#fff",
-		"navigationBarBackgroundColor":"#00a1d6",
+		"navigationBarBackgroundColor":"#fb7299",
 		"backgroundColor":"#F7F7F7"
 	},
 	"tabBar":{
 		"color":"#8a8a8a",
-		"selectedColor":"#00a1d6",
+		"selectedColor":"#fb7299",
 		"backgroundColor":"#FFFFFF",
 		"list":[
 			{

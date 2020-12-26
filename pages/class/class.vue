@@ -2,7 +2,7 @@
 	<view class="class">
 		<view class="left">
 			<view 
-				v-for="(item,index) in clas_list" 
+				v-for="(item,index) in class_list" 
 				:class="[item.active?'active':'']"
 				:key="index"
 				@click="to_active(item)">
@@ -12,26 +12,14 @@
 		<view class="right">
 			<view class="class-title">
 				<view class="title">
-					类别
+					{{class_title}}
 				</view>
 			</view>
 			<view class="good-list">
-				<view class="good-item">
-					<image src="../../static/logo.png" mode="aspectFill"></image>
+				<view class="good-item" v-for="(item,index) in list" :key='index'>
+					<image :src="url+item.main.path" mode="aspectFill"></image>
 					<view class="title">
-						商品名称商品名称商品名称商品名称商品名称
-					</view>
-				</view>
-				<view class="good-item">
-					<image src="../../static/logo.png" mode="aspectFill"></image>
-					<view class="title">
-						商品名称商品名称商品名称商品名称商品名称
-					</view>
-				</view>
-				<view class="good-item">
-					<image src="../../static/logo.png" mode="aspectFill"></image>
-					<view class="title">
-						商品名称商品名称商品名称商品名称商品名称
+						{{item.goods}}
 					</view>
 				</view>
 			</view>
@@ -43,23 +31,42 @@
 	export default {
 		data() {
 			return {
-				clas_list:[
-					{
-						label:'手机',
-						active:false,
-					},
-					{
-						label:'数码手机',
-						active:true,
-					}
-				]
+				class_list:[],
+				class_title:'',
+				list:[],
+				url:''
 			};
 		},
+		mounted(){
+			this.url=this.$url;
+			this.get_classify();
+		},
 		methods:{
+			get_classify(){
+				this.$http('get|pc/classify-list').then(res=>{
+					this.class_list = res.data.map(row=>{
+						return{
+							label:row.classify,
+							value:row.id,
+							active:false
+						}
+					})
+					this.to_active(this.class_list[0]);
+				})
+			},
 			to_active(item){
-				this.clas_list.forEach(row=>row.active=false)
+				this.class_list.forEach(row=>row.active=false)
 				item.active=true;
-			}
+				this.get_list(item.value);
+				this.class_title=item.label;
+			},
+			get_list(id){
+				this.$http('get|pc/good-list',{
+					classify:id
+				}).then(res=>{
+					this.list=res.data;
+				})
+			},
 		}
 	}
 </script>
@@ -79,17 +86,18 @@
 				align-items: center;
 				background-color: #FFFFFF;
 				&.active{
-					background-color: rgba(0,161,214,0.5);
-					color: #00a1d6;
+					background-color: rgba(251,114,153,0.5);
+					color: #fff;
 				}
 			}
 			&::after{
 				position: absolute;
 				content: '';
 				height: 100%;
-				background-color: #00a1d6;
-				width: 1rpx;
+				background-color: #fb7299;
+				width: 2rpx;
 				left: 199rpx;
+				transform: scaleX(.5);
 				top: 0;
 			}
 		}
@@ -130,7 +138,8 @@
 					text-overflow: ellipsis;
 					white-space: nowrap;
 					overflow: hidden;
-					font-size: 30rpx;
+					font-size: 26rpx;
+					margin-top: 10rpx;
 				}
 			}
 		}
