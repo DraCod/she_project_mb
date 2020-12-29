@@ -102,6 +102,7 @@
 				uni.navigateTo({
 					url:'/pages/edit-password/edit-password'
 				})
+				this.$emit('close')
 			},
 			change_bord(num){
 				this.passworld.push(num);

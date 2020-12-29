@@ -31,7 +31,7 @@
 					</view>
 				</view>
 				<view :class="[item.type==1?'red':'']">
-					{{item.num}}
+					{{item.type==1?'+':'-'}}{{item.num}}
 				</view>
 			</view>
 		</view>

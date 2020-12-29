@@ -106,6 +106,7 @@
 		<password 
 			:change="change" 
 			@check_word="check_word" 
+			@colse="close" 
 			:pay_price="info.account"
 			v-model="password_dialog"></password>
 	</view>
@@ -155,6 +156,9 @@
 					this.$message(err.msg,'none');
 					this.change++;
 				})
+			},
+			close(){
+				this.password_dialog =false
 			},
 			to_pay(type){
 				this.type=type;
