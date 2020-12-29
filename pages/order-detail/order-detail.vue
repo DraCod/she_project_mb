@@ -102,19 +102,28 @@
 				现在评论
 			</view>
 		</view>
-		<wallect v-model="dialog" :order_id="order_id" @init="get_detail"></wallect>
+		<wallect v-model="dialog" :order_id="order_id" @type="to_pay"></wallect>
+		<password 
+			:change="change" 
+			@check_word="check_word" 
+			:pay_price="info.account"
+			v-model="password_dialog"></password>
 	</view>
 </template>
 
 <script>
 	import wallect from '../../components/wallect.vue'
+	import password from '../../components/password.vue'
 	export default {
 		data() {
 			return {
 				order_id:'',
 				info:{},
 				url:'',
-				dialog:false
+				dialog:false,
+				password_dialog:false,
+				type:'',
+				change:0
 			};
 		},
 		async onLoad({id,type}) {
@@ -126,6 +135,31 @@
 			}
 		},
 		methods:{
+			check_word(password){
+				this.$http('post|mb/order-pay',{
+					id:this.order_id,
+					type:this.type,
+					password:password
+				}).then(res=>{
+					if(res.status==200){
+						this.$message(res.msg);
+						setTimeout(()=>{
+							this.get_detail()
+							this.password_dialog = false;
+						},2000)
+					}else{
+						this.$message(err.msg,'none');
+						this.change++;
+					}
+				}).catch(err=>{
+					this.$message(err.msg,'none');
+					this.change++;
+				})
+			},
+			to_pay(type){
+				this.type=type;
+				this.password_dialog = true;
+			},
 			is_pay(){
 				this.dialog = true
 			},
@@ -182,7 +216,8 @@
 			}
 		},
 		components:{
-			wallect
+			wallect,
+			password
 		}
 	}
 </script>

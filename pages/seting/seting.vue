@@ -27,7 +27,7 @@
 			</view>
 			<view class="iconfont icon-arrow-r"></view>
 		</view>
-		<view class="seting-item">
+		<view class="seting-item" @click="to_password">
 			<view class="">
 				支付密码
 			</view>
@@ -48,6 +48,11 @@
 			this.get_userinfo();
 		},
 		methods:{
+			to_password(){
+				uni.navigateTo({
+					url:`/pages/edit-password/edit-password`
+				})
+			},
 			to_about(){
 				uni.navigateTo({
 					url:`/pages/about/about`

@@ -34,6 +34,7 @@ export default{
 					header,
 					success:(res)=>{
 						if(res.data.status==402){
+							uni.hideLoading()
 							reject(res.data)
 						}else if(res.data.status==401){
 							uni.showModal({
@@ -50,6 +51,7 @@ export default{
 								}
 							})
 						}else{
+							uni.hideLoading()
 							resolve(res.data)
 						}
 					},
@@ -69,10 +71,10 @@ export default{
 								}
 							})
 						}
-						reject(err)
+						reject(err);
 					},
 					complete:()=>{
-						uni.hideLoading()
+						
 					}
 				})
 			})

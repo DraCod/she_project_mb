@@ -86,7 +86,13 @@
 				去结算
 			</view>
 		</view>
-		<wallect v-model="dialog" :order_id='order_id' @init="init"></wallect>
+		<wallect v-model="dialog" @colse="close" :order_id='order_id' @type="to_pay"></wallect>
+		<password 
+			@check_word="check_word" 
+			@colse="close" 
+			v-model="password_dialog"
+			:pay_price="info.price"
+			:change='change'></password>
 	</view>
 </template>
 
@@ -94,6 +100,7 @@
 	import addressImg from '../../assets/adress.png'
 	import addressLine from '../../assets/icon_1.png'
 	import wallect from '../../components/wallect.vue'
+	import password from '../../components/password.vue'
 	export default {
 		data() {
 			return {
@@ -108,7 +115,10 @@
 				addressId:'',
 				remove:false,
 				dialog:false,
-				order_id:''
+				order_id:'',
+				type:'',
+				password_dialog:false,
+				change:0
 			};
 		},
 		onLoad(query){
@@ -120,6 +130,35 @@
 			this.get_info();
 		},
 		methods:{
+			check_word(password){
+				this.$http('post|mb/order-pay',{
+					id:this.order_id,
+					type:this.type,
+					password:password
+				}).then(res=>{
+					if(res.status==200){
+						this.$message(res.msg);
+						setTimeout(()=>{
+							this.close();
+						},3000)
+					}else{
+						this.$message(err.msg,'none');
+						this.change++;
+					}
+				}).catch(err=>{
+					this.$message(err.msg,'none');
+					this.change++;
+				})
+			},
+			close(){
+				uni.redirectTo({
+					url:'/pages/order-list/order-list?status='
+				})
+			},
+			to_pay(type){
+				this.type=type;
+				this.password_dialog = true;
+			},
 			to_create(){
 				this.$http('post|mb/create-order',{
 					addressId:this.addressId||this.address.id,
@@ -138,11 +177,11 @@
 					this.order_id = res.data.id;
 				})
 			},
-			init(){
-				uni.redirectTo({
-					url:'/pages/order-list/order-list?status='
-				})
-			},
+			// init(){
+			// 	uni.redirectTo({
+			// 		url:'/pages/order-list/order-list?status='
+			// 	})
+			// },
 			to_address(){
 				uni.navigateTo({
 					url:'/pages/address_list/address_list?type=1'
@@ -182,7 +221,8 @@
 			}
 		},
 		components:{
-			wallect
+			wallect,
+			password
 		}
 	}
 </script>

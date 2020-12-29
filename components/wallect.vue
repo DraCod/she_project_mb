@@ -30,23 +30,26 @@
 		},
 		methods:{
 			close(){
-				this.dialog = false
+				this.dialog = false;
+				this.$emit('colse')
 			},
 			to_pay(type){
-				this.$http('post|mb/order-pay',{
-					id:this.order_id,
-					type
-				}).then(res=>{
-					if(res.status==200){
-						this.$message(res.msg);
-						setTimeout(()=>{
-							this.$emit('init');
-							this.dialog = false;
-						},2000)
-					}else{
-						this.$message(res.msg)
-					}
-				})
+				this.$emit('type',type);
+				this.dialog = false
+				// this.$http('post|mb/order-pay',{
+				// 	id:this.order_id,
+				// 	type
+				// }).then(res=>{
+				// 	if(res.status==200){
+				// 		this.$message(res.msg);
+				// 		setTimeout(()=>{
+				// 			this.$emit('init');
+				// 			this.dialog = false;
+				// 		},2000)
+				// 	}else{
+				// 		this.$message(res.msg)
+				// 	}
+				// })
 			}
 		},
 		computed:{
