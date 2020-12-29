@@ -32,6 +32,10 @@
 			</view>
 		</view>
 		
+		<view class="">
+			
+		</view>
+		
 		<view class="good-list">
 			<view class="good-item" v-for="(item,index) in list" @click="to_detail(item)" :key="index">
 				<image :src="url+item.main.path" mode="aspectFill"></image>

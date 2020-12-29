@@ -7,8 +7,8 @@
 			</view>
 		</view>
 		<swiper class="swiper" :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
-			<swiper-item>
-				<image :src="img" mode="aspectFit"></image>
+			<swiper-item v-for="(item,index) in banner_list" :key='index'>
+				<image :src="item.path" mode="aspectFit"></image>
 			</swiper-item>
 		</swiper>
 		<view class="activity">
@@ -30,6 +30,7 @@
 				</view>
 			</view>
 		</view> -->
+		<image :src="item.path" v-for="(item,index) in advert" :key='index' class="advert" mode="widthFix"></image>
 		<view class="hot">
 			热卖商品
 		</view>
@@ -89,15 +90,36 @@
 					},
 				],
 				list:[],
+				banner_list:[],
+				advert:[],
 				url:''
 			}
 		},
 		mounted(){
 			this.url=this.$url;
 			// this.get_classify();
-			this.get_list()
+			this.get_list();
+			this.get_banner();
 		},
 		methods: {
+			get_banner(){
+				this.$http('get|pc-advert-list',{
+					type:1
+				}).then(res=>{
+					this.banner_list=res.data.map(row=>{
+						row.path = this.$url+row.path.path
+						return row
+					})
+				})
+				this.$http('get|pc-advert-list',{
+					type:2
+				}).then(res=>{
+					this.advert=res.data.map(row=>{
+						row.path = this.$url+row.path.path
+						return row
+					})
+				})
+			},
 			get_list(){
 				this.$http('get|mb/recommend-list').then(res=>{
 					this.list=res.data;
@@ -147,8 +169,8 @@
 	.header{
 		width: 750rpx;
 		height: 278rpx;
-		background-image: linear-gradient(to bottom,#fb7299,rgba(251,114,153,0.5),#fb7299);
-		/* background: #fb7299; */
+		/* background-image: linear-gradient(to bottom,#fb7299,rgba(251,114,153,0.5),#fb7299); */
+		background: #fb7299;
 		border-radius: 0 0 25% 25%;
 		.input{
 			width: 630rpx;
@@ -283,5 +305,11 @@
 		line-height: 80rpx;
 		font-size: 26rpx;
 		color: #fb7299;
+	}
+	.advert{
+		width: 710rpx;
+		margin: 0 auto;
+		display: block;
+		margin-top: 20rpx;
 	}
 </style>

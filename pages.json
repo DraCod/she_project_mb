@@ -126,6 +126,38 @@
             }
             
         }
+        ,{
+            "path" : "pages/seting/seting",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "设置"
+            }
+            
+        }
+        ,{
+            "path" : "pages/edit-name/edit-name",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "修改杂货店名字"
+            }
+            
+        }
+        ,{
+            "path" : "pages/feedback/feedback",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "问题反馈"
+            }
+            
+        }
+        ,{
+            "path" : "pages/about/about",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "关于我们"
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "#fff",

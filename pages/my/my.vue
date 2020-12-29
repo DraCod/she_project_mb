@@ -9,7 +9,7 @@
 						<view class="iconfont icon-VIP" v-if="getUser.userName"></view>
 					</view>
 					<view class="small">
-						杂货店用户名：{{getUser.userName||''}}
+						杂货店用户名：{{getUser.otherName||''}}
 					</view>
 				</view>
 			</view>
@@ -121,7 +121,7 @@
 							收藏
 						</view>
 					</view>
-					<view>
+					<view @click="to_seting">
 						<image :src="seting" mode=""></image>
 						<view class="">
 							设置
@@ -176,6 +176,11 @@
 			}
 		},
 		methods: {
+			to_seting(){
+				uni.navigateTo({
+					url:`/pages/seting/seting`
+				})
+			},
 			to_address(){
 				uni.navigateTo({
 					url:`/pages/address_list/address_list`
@@ -273,8 +278,8 @@
 	}
 	.user-box{
 		height: 210rpx;
-		// background: #fb7299;
-		background-image: linear-gradient(to bottom,#fb7299,rgba(251,114,153,0.5),#fb7299);
+		background: #fb7299;
+		// background-image: linear-gradient(to bottom,#fb7299,rgba(251,114,153,0.5),#fb7299);
 		padding: 0 30rpx;
 		box-sizing: border-box;
 		display: flex;
