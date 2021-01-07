@@ -158,6 +158,9 @@
 	}
 	.search-option{
 		display: flex;
+		position: sticky;
+		top: 0;
+		background-color: #fff;
 		>view{
 			flex: 1;
 			height: 90rpx;

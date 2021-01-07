@@ -16,7 +16,7 @@
 				</view>
 			</view>
 			<view class="good-list">
-				<view class="good-item" v-for="(item,index) in list" :key='index'>
+				<view class="good-item" v-for="(item,index) in list" :key='index' @click="to_detail(item)">
 					<image :src="url+item.main.path" mode="aspectFill"></image>
 					<view class="title">
 						{{item.goods}}
@@ -67,6 +67,11 @@
 					this.list=res.data;
 				})
 			},
+			to_detail(item){
+				uni.navigateTo({
+					url:`/pages/good-detail/good-detail?id=${item.id}`
+				})
+			}
 		}
 	}
 </script>
