@@ -1,11 +1,14 @@
 <template>
-	<view class="content">
-		<view class="header">
-			<view class="input" @click="to_search">
-				<view class="iconfont icon-sousuo"></view>
-				输入关键词
+	<scroll-view class="content" style="height: 100vh;background-color: #F7F7F7;" @scroll="scroll" scroll-y="true">
+		<ui-header :scrollTop="scrollTop" :back="back" height="460rpx" title="首页">
+			<view class="header">
+				<view class="input" @click="to_search">
+					<view class="iconfont icon-sousuo"></view>
+					输入关键词
+				</view>
 			</view>
-		</view>
+		</ui-header>
+		<view class="to-no-back"></view>
 		<swiper class="swiper" :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
 			<swiper-item v-for="(item,index) in banner_list" :key='index'>
 				<image :src="item.path" mode="aspectFit"></image>
@@ -30,7 +33,13 @@
 				</view>
 			</view>
 		</view> -->
-		<image :src="item.path" v-for="(item,index) in advert" :key='index' class="advert" mode="widthFix"></image>
+		<view 
+			:style="{
+				'background-image':`url(${item.path})`
+			}"
+			v-for="(item,index) in advert" 
+			:key='index' 
+			class="advert"></view>
 		<view class="hot">
 			热卖商品
 		</view>
@@ -50,7 +59,7 @@
 				</view>
 			</view>
 		</view>
-	</view>
+	</scroll-view>
 </template>
 
 <script>
@@ -59,6 +68,8 @@
 	import choujiang from '../../assets/choujiang.png'
 	import touzhu from '../../assets/touzhu.png'
 	import neigou from '../../assets/neigou.png'
+	import uiHeader from '../../components/header.vue'
+	// import back from '../../assets/top.png'
 	export default {
 		data() {
 			return {
@@ -92,10 +103,11 @@
 				list:[],
 				banner_list:[],
 				advert:[],
-				url:''
+				url:'',
+				scrollTop:0,
 			}
 		},
-		mounted(){
+		onShow(){
 			this.url=this.$url;
 			// this.get_classify();
 			this.get_list();
@@ -160,7 +172,14 @@
 				uni.navigateTo({
 					url:'/pages/search/search'
 				})
+			},
+			scroll({target}){
+				const {scrollTop} = target;
+				this.scrollTop=scrollTop;
 			}
+		},
+		components:{
+			uiHeader
 		}
 	}
 </script>
@@ -170,7 +189,7 @@
 		width: 750rpx;
 		height: 278rpx;
 		/* background-image: linear-gradient(to bottom,#fb7299,rgba(251,114,153,0.5),#fb7299); */
-		background: #fb7299;
+		/* background: #fb7299; */
 		border-radius: 0 0 25% 25%;
 		.input{
 			width: 630rpx;
@@ -192,17 +211,19 @@
 			}
 		}
 	}
+	
 	.swiper{
 		width: 710rpx;
-		height: 270rpx;
+		height: 330rpx;
 		border-radius: 10rpx;
 		overflow: hidden;
 		margin: 0 auto;
 		display: block;
-		margin-top: -200rpx;
+		margin-top: -460rpx;
 		image{
 			height: 100%;
 			width: 100%;
+			border-radius: 10rpx;
 		}
 	}
 	.activity{
@@ -262,9 +283,10 @@
 	}
 	
 	.good-list{
-		padding-left: 20rpx;
+		padding-left:20rpx;
 		box-sizing: border-box;
-		overflow: hidden;
+		/* column-count: 2;
+		column-gap: 20rpx; */
 		.good-item{
 			width: 345rpx;
 			margin-right: 20rpx;
@@ -280,9 +302,9 @@
 				padding: 20rpx;
 			}
 			.title{
-				overflow: hidden;
+				/* overflow: hidden;
 				text-overflow: ellipsis;
-				white-space: nowrap;
+				white-space: nowrap; */
 				font-size: 26rpx;
 				margin-top: 10rpx;
 			}
@@ -311,5 +333,9 @@
 		margin: 0 auto;
 		display: block;
 		margin-top: 20rpx;
+		height: 250rpx;
+		background-size: 110% 100%;
+		background-position: -35rpx;
+		border-radius: 6rpx;
 	}
 </style>

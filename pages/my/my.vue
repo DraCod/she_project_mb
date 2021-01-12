@@ -1,19 +1,25 @@
 <template>
 	<view>
-		<button open-type="getUserInfo" class="getinfo" @getuserinfo="bindGetUserInfo">
-			<view class="user-box">
-				<image class="avator" :src="getUser.avatarUrl||user" mode=""></image>
-				<view class="">
-					<view class="name">
-						{{getUser.userName||'未登录'}}
-						<view class="iconfont icon-VIP" v-if="getUser.userName"></view>
-					</view>
-					<view class="small">
-						杂货店用户名：{{getUser.otherName||''}}
+		<ui-header :back="top_back" height="210rpx" title="我的">
+			<button
+				open-type="getUserInfo" 
+				class="getinfo" 
+				@getuserinfo="bindGetUserInfo"
+				>
+				<view class="user-box">
+					<image class="avator" :src="getUser.avatarUrl||user" mode=""></image>
+					<view class="">
+						<view class="name">
+							{{getUser.userName||'未登录'}}
+							<view class="iconfont icon-VIP" v-if="getUser.userName"></view>
+						</view>
+						<view class="small">
+							杂货店用户名：{{getUser.otherName||''}}
+						</view>
 					</view>
 				</view>
-			</view>
-		</button>
+			</button>
+		</ui-header>
 		<view class="my-wallet" @click="to_walletdetail">
 			<view class="flex order-title">
 				<view class="title">
@@ -147,6 +153,8 @@
 	import icon9 from '../../assets/icon_9.png'
 	import seting from '../../assets/seting.png'
 	import wallect from '../../components/wallect.vue'
+	import top_back from '../../assets/top.png'
+	import uiHeader from '../../components/header.vue'
 	export default {
 		data() {
 			return {
@@ -162,6 +170,7 @@
 				icon9,
 				seting,
 				user,
+				top_back,
 				userinfo:false,
 				address_status:{}
 			};
@@ -260,7 +269,8 @@
 			}
 		},
 		components:{
-			wallect
+			wallect,
+			uiHeader
 		}
 	};
 </script>
@@ -272,13 +282,15 @@
 		border-radius: 0px;
 		border: none;
 		box-shadow: none;
+		background-size: 100%;
+		background-color: transparent;
 		&::after{
 			content: none;
 		}
 	}
 	.user-box{
 		height: 210rpx;
-		background: #fb7299;
+		// background: #fb7299;
 		// background-image: linear-gradient(to bottom,#fb7299,rgba(251,114,153,0.5),#fb7299);
 		padding: 0 30rpx;
 		box-sizing: border-box;
